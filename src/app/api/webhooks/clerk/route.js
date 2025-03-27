@@ -38,11 +38,11 @@ export async function POST(req) {
 
   // Verify payload with headers
   try {
-    evt =await wh.verify(body, {
+    evt = await wh.verify(body, {
       'svix-id': svix_id,
       'svix-timestamp': svix_timestamp,
       'svix-signature': svix_signature,
-    }) 
+    })
   } catch (err) {
     console.error('Error: Could not verify webhook:', err)
     return new Response('Error: Verification error', {
@@ -55,30 +55,58 @@ export async function POST(req) {
   const { id } = evt.data
   const eventType = evt.type
   if (eventType === 'user.created') {
-    const {id ,email_addresses,image_url,first_name,last_name} =evt.data
-    const user={
-      clerkId:id,
-      email:email_addresses[0].email_address,
-      firstname:first_name,
-      lastname:last_name,
-      image:image_url
+    const { id, email_addresses, image_url, first_name, last_name } = evt.data
+    const user = {
+      clerkId: id,
+      email: email_addresses[0].email_address,
+      firstname: first_name,
+      lastname: last_name,
+      image: image_url
     }
-    const usercreated=await UserMOdel.create(user)
-    console.log(usercreated)
-    if(usercreated){
-      await clerkClient.users.updateUserMetadata(id,{
-      publicMetadata:{
-        userId:usercreated._id
-      }
-      })
-    }
+    const usercreated = await UserMOdel.create(user)
+    // if (usercreated) {
+    //   await clerkClient.users.updateUserMetadata(id, {
+    //     publicMetadata: {
+    //       userId: usercreated._id
+    //     }
+    //   })
+    // }
     return NextResponse.json({
       message: 'User created',
       status: 200,
+      usercreated
     })
   }
+  // if (eventType === 'user.updated') {
+  //   const { id, email_addresses, image_url, first_name, last_name } = evt.data
+  //   const user = {
+  //     clerkId: id,
+  //     email: email_addresses[0].email_address,
+  //     firstname: first_name,
+  //     lastname: last_name,
+  //     image: image_url
+  //   }
+  //   const updateduser = await UserMOdel.findOneAndUpdate({ clerkId: id }, user)
+  //   if (updateduser) {
+  //     return NextResponse.json({
+  //       message: 'User updated',
+  //       status: 200,
+  //     })
+  //   }
+  // }
+
+  // if (eventType === 'user.deleted') {
+  //   const { id } = evt.data
+  //   const deleteduser = await UserMOdel.findOneAndDelete({ clerkId: id })
+  //   if (deleteduser) {
+  //     return NextResponse.json({
+  //       message: 'User deleted',
+  //       status: 200,
+  //     })
+  //   }
+  // }
   console.log(`Received webhook with ID ${id} and event type of ${eventType}`)
-  console.log('Webhook payload:', body)
+  // console.log('Webhook payload:', body)
 
   return new Response('Webhook received', { status: 200 })
 }
