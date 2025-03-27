@@ -1,0 +1,20 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+:root {
+  --font-geo: "Geo";
+  --font-inter: "Inter";
+}
+
+@theme inline {
+  --font-geo: var(--font-geo);
+  --font-inter: var(--font-inter);
+  --font-bhai: var(--font-bhai);
+   --color-primary: #9C27B0;
+
+}
+
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
