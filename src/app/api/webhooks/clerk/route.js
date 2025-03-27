@@ -77,34 +77,34 @@ export async function POST(req) {
       usercreated
     })
   }
-  // if (eventType === 'user.updated') {
-  //   const { id, email_addresses, image_url, first_name, last_name } = evt.data
-  //   const user = {
-  //     clerkId: id,
-  //     email: email_addresses[0].email_address,
-  //     firstname: first_name,
-  //     lastname: last_name,
-  //     image: image_url
-  //   }
-  //   const updateduser = await UserMOdel.findOneAndUpdate({ clerkId: id }, user)
-  //   if (updateduser) {
-  //     return NextResponse.json({
-  //       message: 'User updated',
-  //       status: 200,
-  //     })
-  //   }
-  // }
+  if (eventType === 'user.updated') {
+    const { id, email_addresses, image_url, first_name, last_name } = evt.data
+    const user = {
+      clerkId: id,
+      email: email_addresses[0].email_address,
+      firstname: first_name,
+      lastname: last_name,
+      image: image_url
+    }
+    const updateduser = await UserMOdel.findOneAndUpdate({ clerkId: id }, user)
+    if (updateduser) {
+      return NextResponse.json({
+        message: 'User updated',
+        status: 200,
+      })
+    }
+  }
 
-  // if (eventType === 'user.deleted') {
-  //   const { id } = evt.data
-  //   const deleteduser = await UserMOdel.findOneAndDelete({ clerkId: id })
-  //   if (deleteduser) {
-  //     return NextResponse.json({
-  //       message: 'User deleted',
-  //       status: 200,
-  //     })
-  //   }
-  // }
+  if (eventType === 'user.deleted') {
+    const { id } = evt.data
+    const deleteduser = await UserMOdel.findOneAndDelete({ clerkId: id })
+    if (deleteduser) {
+      return NextResponse.json({
+        message: 'User deleted',
+        status: 200,
+      })
+    }
+  }
   console.log(`Received webhook with ID ${id} and event type of ${eventType}`)
   // console.log('Webhook payload:', body)
 
