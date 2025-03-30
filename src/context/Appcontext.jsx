@@ -53,7 +53,7 @@ const AppcontextProvider = (props) => {
     formdata.append('file', url)
     setloader(true)
     router.push("/result")
-    const response = await fetch('http://localhost:3000/api/imageController', {
+    const response = await fetch('https://remove-bg-hdc8.vercel.app/api/imageController', {
       method: 'POST',
       headers: {
         "token": `${token}`
