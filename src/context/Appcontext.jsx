@@ -17,7 +17,7 @@ const AppcontextProvider = (props) => {
   const GenrateCreadits = async () => {
     try {
       const token = await getToken()
-      const res = await fetch("http://localhost:3000/api/getcredits", {
+      const res = await fetch("https://remove-bg-hdc8.vercel.app/api/getcredits", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
