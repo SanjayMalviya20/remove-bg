@@ -6,8 +6,8 @@ const page = () => {
     {
       id: 1,
       name: "Basic",
-      price: "$9.99",
-      features: [ "Basic Support"],
+      price: "$10",
+      features: [ "Purchase"],
       credits: {
         credits: 100,
        
@@ -17,8 +17,8 @@ const page = () => {
     {
       id: 2,
       name: "Premium",
-      price: "$19.99",
-      features: ["Priority Support"],
+      price: "$50",
+      features: ["Purchase"],
       credits: {
         credits: 500,
       
@@ -28,8 +28,8 @@ const page = () => {
     {
       id: 3,
       name: "Enterprise",
-      price: "$49.99",
-      features: [ "Dedicated Support"],
+      price: "$250",
+      features: [ "Purchase"],
       credits: {
         credits: 5000,
        
@@ -40,7 +40,7 @@ const page = () => {
 
   return (
     <>
-      <div className="h-screen pt-14 ">
+      <div className=" pt-14 ">
         <div className="container mx-auto p-4 pt-6">
           <div className="w-full flex justify-center flex-col items-center">
             <button className="btn btn-outline hover:text-white border-[#000000] text-black font-bold py-2 px-4 rounded">

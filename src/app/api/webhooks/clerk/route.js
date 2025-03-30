@@ -71,12 +71,15 @@ export async function POST(req) {
     //     }
     //   })
     // }
+    
     return NextResponse.json({
       message: 'User created',
       status: 200,
       usercreated
     })
   }
+
+  // update route
   if (eventType === 'user.updated') {
     const { id, email_addresses, image_url, first_name, last_name } = evt.data
     const user = {
@@ -86,6 +89,7 @@ export async function POST(req) {
       lastname: last_name,
       image: image_url
     }
+
     const updateduser = await UserMOdel.findOneAndUpdate({ clerkId: id }, user)
     if (updateduser) {
       return NextResponse.json({
@@ -95,6 +99,7 @@ export async function POST(req) {
     }
   }
 
+  //delete route
   if (eventType === 'user.deleted') {
     const { id } = evt.data
     const deleteduser = await UserMOdel.findOneAndDelete({ clerkId: id })

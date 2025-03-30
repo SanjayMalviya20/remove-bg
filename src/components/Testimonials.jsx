@@ -5,7 +5,7 @@ const Testimonials = () => {
         image: 'https://picsum.photos/200/300?random=1',
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.',
         name: 'Ajay Sharma',
-        position: 'CEO, ABC Corporation'
+        position: 'CEO, One Corporation'
       },
       {
         image: 'https://picsum.photos/200/300?random=2',

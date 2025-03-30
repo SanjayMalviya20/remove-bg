@@ -13,10 +13,10 @@ const Footer = () => {
       </div >
       <div className="flex gap-4 px-3">
         <Link href="https://www.instagram.com/sanjay_malviya19/">
-      <InstagramIcon  className="shadow-[0px_0px_6px_black] bg-white rounded-full p-1" size={30}  cursor={"pointer"}/>
+      <InstagramIcon  className="shadow-[0px_0px_1px_black] bg-white rounded-full p-1" size={30}  cursor={"pointer"}/>
         </Link>
-      <Facebook02Icon  className="shadow-[0px_0px_6px_black] bg-white rounded-full p-1" size={30} cursor={"pointer"}/>
-      <TwitterIcon className="shadow-[0px_0px_6px_black] bg-white rounded-full p-1" size={30}  cursor={"pointer"}/>
+      <Facebook02Icon  className="shadow-[0px_0px_1px_black] bg-white rounded-full p-1" size={30} cursor={"pointer"}/>
+      <TwitterIcon className="shadow-[0px_0px_1px_black] bg-white rounded-full p-1" size={30}  cursor={"pointer"}/>
       </div>
     </div>
   )

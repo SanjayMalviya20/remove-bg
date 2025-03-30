@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^6.12.9",
+    "axios": "^1.8.4",
+    "form-data": "^4.0.2",
     "hugeicons-react": "^0.3.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.13.0",
@@ -17,6 +19,7 @@
     "next": "15.2.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-toastify": "^11.0.5",
     "svix": "^1.62.0"
   },
   "devDependencies": {
