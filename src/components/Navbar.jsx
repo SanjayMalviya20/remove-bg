@@ -1,7 +1,7 @@
 "use client"
 import { context } from '@/context/Appcontext';
-import { SignInButton, useClerk, useUser, UserButton, useAuth } from '@clerk/nextjs';
-import { ArrowRight02Icon, Bitcoin01Icon, Coins01Icon, Coins02Icon, CoinsDollarIcon } from 'hugeicons-react';
+import { useClerk, useUser, UserButton, useAuth ,SignInButton} from '@clerk/nextjs';
+import { ArrowRight02Icon, CoinsDollarIcon } from 'hugeicons-react';
 import { useRouter } from 'next/navigation';
 import { useContext, useEffect } from 'react';
 
@@ -14,7 +14,7 @@ const Navbar = () => {
   //   const token =await getToken()
   //   console.log(token)
   // }
-  console.log(user?.id)
+  // console.log(user?.id)
   const { Creadits, GenrateCreadits } = useContext(context)
   useEffect(() => {
     GenrateCreadits()
@@ -24,7 +24,7 @@ const Navbar = () => {
  
   return (
     <nav className="flex justify-between items-center py-4 px-2 bg-white">
-      <div className="flex items-center">
+      <div onClick={() => { router.push("/") }} className="flex cursor-pointer items-center">
         <h1 className="text-2xl font-bold text-black">Remove.bg</h1>
       </div>
 

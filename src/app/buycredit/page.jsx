@@ -1,15 +1,18 @@
 "use client";
+
+import { useAuth } from "@clerk/nextjs";
+
 const page = () => {
-  
+  const {getToken} = useAuth();
   // Define an array of plans
   const plans = [
     {
       id: 1,
       name: "Basic",
-      price: "$10",
+      price: "₹50",
       features: [ "Purchase"],
       credits: {
-        credits: 100,
+        credits: 30,
        
         bonusText: "Best for personal use",
       },
@@ -17,10 +20,10 @@ const page = () => {
     {
       id: 2,
       name: "Premium",
-      price: "$50",
+      price: "₹250",
       features: ["Purchase"],
       credits: {
-        credits: 500,
+        credits: 100,
       
         bonusText: "Best for  businesses",
       },
@@ -28,16 +31,33 @@ const page = () => {
     {
       id: 3,
       name: "Enterprise",
-      price: "$250",
+      price: "₹500",
       features: [ "Purchase"],
       credits: {
-        credits: 5000,
+        credits: 400,
        
         bonusText: "Best for large organizations",
       },
     },
   ];
 
+  const payementHandler = async (plans) => {
+    if (!plans) {
+      return toast.error("Please select a plan");
+    }
+   
+    const token = await getToken();
+    const response = await fetch(`https://remove-bg-hdc8.vercel.app/api/payment/?plan=${plans}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "token":`${token}`,
+      },
+    });
+    const data = await response.json();
+    // console.log(data)
+    window.location.href = data.url;
+      }
   return (
     <>
       <div className=" pt-14 ">
@@ -71,6 +91,7 @@ const page = () => {
                 <>
                   {plan.features.map((feature) => (
                     <button 
+                      onClick={() => payementHandler(plan?.name)}
                       key={feature}
                       className="btn"
                     >

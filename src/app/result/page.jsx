@@ -6,7 +6,7 @@ import Loader from "@/components/Loader"
 
 const page = () => {
   const { resultImage ,loader,removebgFromImage,image} = useContext(context)
-console.log(resultImage)
+// console.log(resultImage)
 const refInput = useRef(null);
 
   return (
