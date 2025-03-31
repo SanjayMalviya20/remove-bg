@@ -26,7 +26,7 @@ export async function POST(req) {
     }
 
     const buffer = Buffer.from(await file.arrayBuffer());
-    const uploadDir = path.join(process.cwd(), "public/uploads");
+    const uploadDir = path.join(process.cwd(), "src/uploads");
     await fs.promises.mkdir(uploadDir, { recursive: true }); // डायरेक्टरी बनाएँ अगर मौजूद न हो
     const filePath = path.join(uploadDir, `${Date.now()}-${file.name}`);
     await fs.promises.writeFile(filePath, buffer);
