@@ -17,11 +17,11 @@ const userSchema = new mongoose.Schema(
         },
         lastname: {
             type: String,
-            required: true,
+            // required: true,
         },
         image: {
             type: String,
-            required: true,
+            // required: true,
         },
         creditBalance: {
             type: Number,

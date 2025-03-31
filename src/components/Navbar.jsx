@@ -2,16 +2,19 @@
 import { context } from '@/context/Appcontext';
 import { SignInButton, useClerk, useUser, UserButton, useAuth } from '@clerk/nextjs';
 import { ArrowRight02Icon, Bitcoin01Icon, Coins01Icon, Coins02Icon, CoinsDollarIcon } from 'hugeicons-react';
+import { useRouter } from 'next/navigation';
 import { useContext, useEffect } from 'react';
 
 const Navbar = () => {
   const { signOut, openSignIn } = useClerk();
   const { user, isLoaded, isSignedIn } = useUser();
+  const router = useRouter()
   // const {getToken}= useAuth()
   // const gettoken=async()=>{
   //   const token =await getToken()
   //   console.log(token)
   // }
+  console.log(user?.id)
   const { Creadits, GenrateCreadits } = useContext(context)
   useEffect(() => {
     GenrateCreadits()
@@ -29,7 +32,7 @@ const Navbar = () => {
        
         isSignedIn && user ?
           <div className='flex gap-2 items-center flex-wrap-reverse lg:flex-nowrap justify-end '>
-            <div className='flex items-center gap-2 bg-[#fff719] cursor-pointer rounded-full p-2 hover:scale-105 duration-200'>
+            <div onClick={() => { router.push("/buycredit") }} className='flex items-center gap-2 bg-[#fff719] cursor-pointer rounded-full p-2 hover:scale-105 duration-200'>
             <CoinsDollarIcon className='text-[#ff8800]  rounded-full ' size={25} />
             <p className=' '>Credits : {Creadits?Creadits:"0"}</p>
             </div>

@@ -10,17 +10,20 @@ const Section = () => {
         <p className='font-bold'>upload image</p>
         <p>Upload your image and get started</p>
        </div>
-       <div className=' bg-[#94afff] shadow-[0px_0px_1px_black] p-3 rounded-md'>
-        <ImageRemove02Icon size={40}  className='p-2 rounded-md bg-gradient-to-r  to-[#9C27B0] from-blue-500   '/>
-        <p className='font-bold'>remove image</p>
-        <p>Remove the background from your image</p>
-       </div>
+      
+
        <div className=' bg-[#d1aeff] shadow-[0px_0px_1px_black]  p-3 rounded-md'>
         <Download03Icon size={40}  className='p-2 rounded-md bg-gradient-to-r  to-[#9C27B0] from-blue-500   '/>
         <p className='font-bold'>download image</p>
-        <p>Get your image and download it</p>
+        <p>Get your image and download it free</p>
        </div>
-       
+
+      
+       <div className=' bg-[#94afff] shadow-[0px_0px_1px_black]  p-3 rounded-md'>
+        <ImageRemove01Icon size={40}  className='p-2 rounded-md bg-gradient-to-r  to-[#9C27B0] from-blue-500   '/>
+        <p className='font-bold'>remove image</p>
+        <p className=''>Remove the background with easy</p>
+       </div>
       </div>
    
     </>
