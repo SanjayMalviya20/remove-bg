@@ -13,6 +13,7 @@ const AppcontextProvider = (props) => {
   const { openSignIn } = useClerk();
   const [image, setimage] = useState(null);
   const [resultImage, setresultImage] = useState(null);
+   const [Sessionid, setSessionid] = useState(null);
   const router = useRouter()
   const GenrateCreadits = async () => {
     try {
@@ -69,9 +70,9 @@ const AppcontextProvider = (props) => {
     GenrateCreadits()
 
   }
-  console.log(resultImage)
+  // console.log(resultImage)
   return (
-    <context.Provider value={{ Creadits, GenrateCreadits, setCreadits, removebgFromImage, image, resultImage, loader }}>
+    <context.Provider value={{ Creadits, GenrateCreadits, setCreadits, removebgFromImage, image, resultImage, loader ,Sessionid,setSessionid}}>
       {props.children}
     </context.Provider>
   )

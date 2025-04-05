@@ -1,7 +1,7 @@
 "use client";
-
 import { useAuth } from "@clerk/nextjs";
-
+import {  useEffect } from "react";
+import { toast } from "react-toastify";
 const page = () => {
   const {getToken} = useAuth();
   // Define an array of plans
@@ -55,9 +55,13 @@ const page = () => {
       },
     });
     const data = await response.json();
-    // console.log(data)
-    window.location.href = data.url;
+    // console.log(data);
+    window.location.href = data?.url;
+    localStorage.setItem("sessionId", data.sessionId);
+    setSessionid(data.sessionId)
       }
+
+      
   return (
     <>
       <div className=" pt-14 ">

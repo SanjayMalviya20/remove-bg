@@ -1,12 +1,18 @@
 import connectDB from "@/lib/dbConnection";
-import { middleware } from "@/middleware/auth";
-import UserModel from "@/models/userModel";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import crypto from "crypto"; // Import crypto module
+import UserModel from "@/models/userModel";
+import { middleware } from "@/middleware/auth";
 
 connectDB();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+const plans = {
+    Basic: { price: 50, credits: 30, description: "Basic plan" },
+    Premium: { price: 250, credits: 100, description: "Premium plan" },
+    Enterprise: { price: 500, credits: 200, description: "Enterprise plan" },
+};
 
 export async function POST(req, res) {
     await middleware(req);
@@ -16,12 +22,6 @@ export async function POST(req, res) {
 
     try {
         // Validate plan
-        const plans = {
-            Basic: { price: 50, credits: 30, description: "Basic plan" },
-            Premium: { price: 250, credits: 100, description: "Premium plan" },
-            Enterprise: { price: 500, credits: 200, description: "Enterprise plan" },
-        };
-
         if (!plan || !plans[plan]) {
             return NextResponse.json({ msg: "Invalid or missing plan" }, { status: 400 });
         }
@@ -31,8 +31,6 @@ export async function POST(req, res) {
         if (!userdata) {
             return NextResponse.json({ msg: "User not logged in" }, { status: 401 });
         }
-
-        console.log(userdata);
 
         // Create Stripe checkout session
         const session = await stripe.checkout.sessions.create({
@@ -53,15 +51,16 @@ export async function POST(req, res) {
                 amount: plans[plan].price * 100,
                 plan: plan,
                 order_id: crypto.randomUUID(),
-                userId: userdata._id.toString(), // Pass user ID for webhook processing
+                userId: userdata._id.toString(), // Pass user ID for verification
             },
             mode: "payment",
             payment_method_types: ["card"],
-            success_url: "https://remove-bg-hdc8.vercel.app/success",
-            cancel_url: "https://remove-bg-hdc8.vercel.app/",
+            success_url: `http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}`,
+            // Replace with your success URL
+            cancel_url: "http://localhost:3000/",
         });
 
-        return NextResponse.json({ url: session.url }, { status: 200 });
+        return NextResponse.json({ url: session.url, sessionId: session.id }, { status: 200 });
     } catch (error) {
         console.error("Error creating checkout session:", error.message);
         return NextResponse.json(
@@ -71,43 +70,41 @@ export async function POST(req, res) {
     }
 }
 
-// Webhook to handle payment status
-export async function POST_webhook(req, res) {
-    const sig = req.headers["stripe-signature"];
-    const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+export async function GET(req) {
+    const sessionId = req.nextUrl.searchParams.get("session_id");
 
-    let event;
-
-    try {
-        const rawBody = await req.text();
-        event = stripe.webhooks.constructEvent(rawBody, sig, endpointSecret);
-    } catch (err) {
-        console.error("Webhook signature verification failed:", err.message);
-        return NextResponse.json({ error: "Webhook signature verification failed" }, { status: 400 });
+    if (!sessionId) {
+        return NextResponse.json({ error: "Missing session_id" }, { status: 400 });
     }
 
-    // Handle the event
-    if (event.type === "checkout.session.completed") {
-        const session = event.data.object;
+    try {
+        // Retrieve the session from Stripe
+        const session = await stripe.checkout.sessions.retrieve(sessionId);
 
-        // Update user credit balance
-        const plan = session.metadata.plan;
-        const userId = session.metadata.userId;
+        if (session.payment_status === "paid") {
+            const plan = session.metadata.plan;
+            const userId = session.metadata.userId;
 
-        const plans = {
-            Basic: { credits: 30 },
-            Premium: { credits: 100 },
-            Enterprise: { credits: 200 },
-        };
+            if (!plans[plan]) {
+                return NextResponse.json({ error: "Invalid plan in session metadata" }, { status: 400 });
+            }
 
-        if (plans[plan]) {
+            // Update user credit balance
             await UserModel.updateOne(
                 { _id: userId },
                 { $inc: { creditBalance: plans[plan].credits } }
             );
-            // console.log(`Credits added: ${plans[plan].credits} for user ${userId}`);
-        }
-    }
 
-    return NextResponse.json({ received: true }, { status: 200 });
+            console.log("success",""+plans[plan].credits)
+            return NextResponse.json({ success: true, credits: plans[plan].credits });
+        }
+
+        return NextResponse.json({ success: false, msg: "Payment not completed" }, { status: 400 });
+    } catch (error) {
+        console.error("Error verifying payment:", error.message);
+        return NextResponse.json(
+            { error: "Failed to verify payment", details: error.message },
+            { status: 500 }
+        );
+    }
 }
