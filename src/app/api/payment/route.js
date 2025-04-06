@@ -55,9 +55,9 @@ export async function POST(req, res) {
             },
             mode: "payment",
             payment_method_types: ["card"],
-            success_url: `http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}`,
+            success_url: `https://remove-bg-hdc8.vercel.app/success?session_id={CHECKOUT_SESSION_ID}`,
             // Replace with your success URL
-            cancel_url: "http://localhost:3000/",
+            cancel_url: "https://remove-bg-hdc8.vercel.app/",
         });
 
         return NextResponse.json({ url: session.url, sessionId: session.id }, { status: 200 });
